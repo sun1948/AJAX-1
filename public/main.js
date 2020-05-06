@@ -1,42 +1,41 @@
 let request;
-
 const createXMLHttpRequest = (method, path) => {
   request = new XMLHttpRequest();
   request.open(method, path);
   request.send();
 };
 
+const AJAX = (method, path, label, position) => {
+  createXMLHttpRequest(method, path);
+  if (position === "head") {
+    request.onreadystatechange = () => {
+      if (request.readyState === 4 && request.status === 200) {
+        const dom = document.createElement(label);
+        dom.innerHTML = request.response;
+        document.head.appendChild(dom);
+      }
+    };
+  } else if (position === "body") {
+    request.onreadystatechange = () => {
+      if (request.readyState === 4 && request.status === 200) {
+        const dom = document.createElement(label);
+        dom.innerHTML = request.response;
+        document.body.appendChild(dom);
+      }
+    };
+  }
+};
+
 getCSS.onclick = () => {
-  createXMLHttpRequest("GET", "/1.css");
-  request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status === 200) {
-      const style = document.createElement("style");
-      style.innerHTML = request.response;
-      document.head.appendChild(style);
-    }
-  };
+  AJAX("GET", "/1.css", "style", "head");
 };
 
 getJS.onclick = () => {
-  createXMLHttpRequest("GET", "/2.js");
-  request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status === 200) {
-      const script = document.createElement("script");
-      script.innerHTML = request.response;
-      document.body.appendChild(script);
-    }
-  };
+  AJAX("GET", "/2.js", "script", "body");
 };
 
 getHTML.onclick = () => {
-  createXMLHttpRequest("GET", "/3.html");
-  request.onreadystatechange = () => {
-    if (request.readyState === 4 && request.status === 200) {
-      const div = document.createElement("div");
-      div.innerHTML = request.response;
-      document.body.appendChild(div);
-    }
-  };
+  AJAX("GET", "/3.html", "div", "body");
 };
 
 getXML.onclick = () => {
