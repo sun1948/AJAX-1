@@ -1,6 +1,13 @@
+let request;
+
+const createXMLHttpRequest = (method, path) => {
+  request = new XMLHttpRequest();
+  request.open(method, path);
+  request.send();
+};
+
 getCSS.onclick = () => {
-  const request = new XMLHttpRequest();
-  request.open("GET", "/1.css");
+  createXMLHttpRequest("GET", "/1.css");
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const style = document.createElement("style");
@@ -8,12 +15,10 @@ getCSS.onclick = () => {
       document.head.appendChild(style);
     }
   };
-  request.send();
 };
 
 getJS.onclick = () => {
-  const request = new XMLHttpRequest();
-  request.open("GET", "/2.js");
+  createXMLHttpRequest("GET", "/2.js");
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const script = document.createElement("script");
@@ -21,12 +26,10 @@ getJS.onclick = () => {
       document.body.appendChild(script);
     }
   };
-  request.send();
 };
 
 getHTML.onclick = () => {
-  const request = new XMLHttpRequest();
-  request.open("GET", "/3.html");
+  createXMLHttpRequest("GET", "/3.html");
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const div = document.createElement("div");
@@ -34,12 +37,10 @@ getHTML.onclick = () => {
       document.body.appendChild(div);
     }
   };
-  request.send();
 };
 
 getXML.onclick = () => {
-  const request = new XMLHttpRequest();
-  request.open("GET", "/4.xml");
+  createXMLHttpRequest("GET", "/4.xml");
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const dom = request.responseXML;
@@ -47,25 +48,21 @@ getXML.onclick = () => {
       title.innerHTML = content;
     }
   };
-  request.send();
 };
 
 getJSON.onclick = () => {
-  const request = new XMLHttpRequest();
-  request.open("GET", "/5.json");
+  createXMLHttpRequest("GET", "/5.json");
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const array = JSON.parse(request.response);
       console.log(typeof array);
     }
   };
-  request.send();
 };
 
 let n = 1;
 nextPage.onclick = () => {
-  const request = new XMLHttpRequest();
-  request.open("GET", `/page${n + 1}`);
+  createXMLHttpRequest("GET", `/page${n + 1}`);
   request.onreadystatechange = () => {
     if (request.readyState === 4 && request.status === 200) {
       const array = JSON.parse(request.response);
@@ -77,5 +74,4 @@ nextPage.onclick = () => {
       n += 1;
     }
   };
-  request.send();
 };
